@@ -85,17 +85,20 @@ public static class EndPoints
         .Accepts<CreateRequest>("application/json");
 
 
-        app.MapPatch("/employee", async (IValidator<UpdateRequest> validator, 
+        app.MapPatch("/employee/{id}", async (IValidator<UpdateRequest> validator, 
             IEmployeeService employeeService,
-            [FromBody] UpdateRequest updateRequest) =>
+            [FromBody] UpdateRequest updateRequest,
+            int id) =>
         {
+            if (id <= 0) return Results.BadRequest();
+
             var validationResult = await validator.ValidateAsync(updateRequest);
             if (!validationResult.IsValid)
             {
                 return Results.ValidationProblem(validationResult.ToDictionary());
             }
 
-            var result = await employeeService.UpdateAsync(updateRequest);
+            var result = await employeeService.UpdateAsync(id, updateRequest);
 
             return Results.Json(result);
         })
@@ -109,17 +112,12 @@ public static class EndPoints
         .Accepts<UpdateRequest>("application/json");
 
 
-        app.MapDelete("/employee", async (IValidator<BaseRequest> validator,
-            IEmployeeService employeeService,
-            [FromBody] BaseRequest deleteRequest) =>
+        app.MapDelete("/employee/{id}", async (IEmployeeService employeeService,
+            int id) =>
         {
-            var validationResult = await validator.ValidateAsync(deleteRequest);
-            if (!validationResult.IsValid)
-            {
-                return Results.ValidationProblem(validationResult.ToDictionary());
-            }
+            if (id <= 0) return Results.BadRequest();
 
-            var result = await employeeService.DeleteAsync(deleteRequest);
+            var result = await employeeService.DeleteAsync(id);
 
             return Results.Json(result);
         })
@@ -129,7 +127,6 @@ public static class EndPoints
             Description = "Удаление сотрудника по его id"
         })
         .Produces<Result<bool>>(StatusCodes.Status200OK)
-        .Produces(StatusCodes.Status400BadRequest)
-        .Accepts<BaseRequest>("application/json");
+        .Produces(StatusCodes.Status400BadRequest);
     }
 }

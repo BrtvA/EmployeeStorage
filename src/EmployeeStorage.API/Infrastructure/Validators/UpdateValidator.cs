@@ -7,9 +7,9 @@ public class UpdateValidator : AbstractValidator<UpdateRequest>
 {
     public UpdateValidator()
     {
-        RuleFor(updateRequest => updateRequest.Id)
-            .NotNull()
-            .GreaterThan(0);
+        //RuleFor(updateRequest => updateRequest.Id)
+        //    .NotNull()
+        //    .GreaterThan(0);
         RuleFor(updateRequest => updateRequest.Name)
             .NotEmpty()
             .Length(1, 20)

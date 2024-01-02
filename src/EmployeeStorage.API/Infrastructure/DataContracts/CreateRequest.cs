@@ -13,7 +13,7 @@ public class CreateRequest
     public string Phone { get; set; } = null!;
     [JsonPropertyName("company_id")]
     public int CompanyId { get; set; }
-    [JsonPropertyName("password")]
+    [JsonPropertyName("passport")]
     public Passport Passport { get; set; } = null!;
     [JsonPropertyName("department_id")]
     public int DepartmentId { get; set; }

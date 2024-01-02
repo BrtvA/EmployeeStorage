@@ -39,7 +39,6 @@ builder.Services.AddTransient<IValidator<CreateRequest>, CreateValidator>();
 builder.Services.AddTransient<IValidator<GetRequest>, GetValidator>();
 builder.Services.AddTransient<IValidator<GetFullRequest>, GetFullValidator>();
 builder.Services.AddTransient<IValidator<UpdateRequest>, UpdateValidator>();
-builder.Services.AddTransient<IValidator<BaseRequest>, DeleteValidator>();
 
 builder.Services.AddSingleton<DataContext>();
 builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();

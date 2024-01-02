@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace EmployeeStorage.API.Infrastructure.DataContracts;
 
-public class UpdateRequest : BaseRequest
+public class UpdateRequest
 {
     [JsonPropertyName("name")]
     public string? Name { get; set; }

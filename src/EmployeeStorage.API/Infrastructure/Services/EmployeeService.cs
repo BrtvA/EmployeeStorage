@@ -48,6 +48,7 @@ public class EmployeeService : IEmployeeService
             throw;
         }
     }
+
     public async Task<Result<IEnumerable<Employee>>> GetAllByCompanyAsync(GetRequest getRequest)
     {
         var result = await _employeeRepository.GetAllByCompanyAsync(getRequest.CompanyName);
@@ -59,6 +60,7 @@ public class EmployeeService : IEmployeeService
 
         return Result<IEnumerable<Employee>>.Success(result);
     }
+
     public async Task<Result<IEnumerable<Employee>>> GetAllByDepartmentAsync(GetFullRequest getRequest)
     {
         var result = await _employeeRepository.GetAllByDepartmentAsync(
@@ -72,7 +74,8 @@ public class EmployeeService : IEmployeeService
 
         return Result<IEnumerable<Employee>>.Success(result);
     }
-    public async Task<Result<bool>> UpdateAsync(UpdateRequest updateRequest)
+
+    public async Task<Result<bool>> UpdateAsync(int id, UpdateRequest updateRequest)
     {
         _employeeRepository.OpenConnection();
 
@@ -81,7 +84,7 @@ public class EmployeeService : IEmployeeService
         {
             Result<bool> result;
 
-            var employee = await _employeeRepository.Get(updateRequest.Id);
+            var employee = await _employeeRepository.Get(id);
 
             if (employee is null)
             {
@@ -91,7 +94,7 @@ public class EmployeeService : IEmployeeService
             {
                 var data = new Employee() 
                 {
-                    Id = updateRequest.Id,
+                    Id = id,
                     Name = updateRequest.Name ?? employee.Name,
                     Surname = updateRequest.Surname ?? employee.Surname,
                     Phone = updateRequest.Phone ?? employee.Phone,
@@ -129,7 +132,8 @@ public class EmployeeService : IEmployeeService
             throw;
         }
     }
-    public async Task<Result<bool>> DeleteAsync(BaseRequest deleteRequest)
+
+    public async Task<Result<bool>> DeleteAsync(int id)
     {
         _employeeRepository.OpenConnection();
         using var transaction = _employeeRepository.BeginTransaction();
@@ -137,7 +141,7 @@ public class EmployeeService : IEmployeeService
         {
             Result<bool> result;
 
-            var employee = await _employeeRepository.Get(deleteRequest.Id);
+            var employee = await _employeeRepository.Get(id);
 
             if (employee is null)
             {
@@ -145,7 +149,7 @@ public class EmployeeService : IEmployeeService
             }
             else
             {
-                await _employeeRepository.DeleteAsync(deleteRequest.Id);
+                await _employeeRepository.DeleteAsync(id);
 
                 result = Result<bool>.Success(true);
             }
