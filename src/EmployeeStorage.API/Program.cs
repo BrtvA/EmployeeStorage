@@ -1,4 +1,4 @@
-using EmployeeStorage.API;
+п»їusing EmployeeStorage.API;
 using EmployeeStorage.API.Domain;
 using EmployeeStorage.API.Infrastructure.Services.Interfaces;
 using EmployeeStorage.API.Infrastructure.Services;
@@ -21,7 +21,7 @@ builder.Services.AddSwaggerGen(options =>
     {
         Version = "v1",
         Title = "Emoloyee Storage API",
-        Description = "ASP.NET Web API для учета сотрудников"
+        Description = "ASP.NET Web API РґР»СЏ СѓС‡РµС‚Р° СЃРѕС‚СЂСѓРґРЅРёРєРѕРІ"
     });
 });
 
