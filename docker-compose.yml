@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: pgpassword
+    networks:
+        - "employee-network"
+    ports:
+        - "5432:5432"
+  employeestorage.api:
+    image: ${DOCKER_REGISTRY-}employeestorageapi
+    environment:
+        -  "DbSettings__Server=192.168.10.1"
+    networks:
+        - "employee-network"
+    build:
+      context: .
+      dockerfile: src/EmployeeStorage.API/Dockerfile
+    ports:
+        - "55772:8081"
+networks:
+  employee-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "192.168.10.0/24"
+          gateway: "192.168.10.1"
