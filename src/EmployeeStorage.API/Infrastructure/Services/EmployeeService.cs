@@ -1,4 +1,4 @@
-﻿using EmployeeStorage.API.Domain;
+﻿using EmployeeStorage.API.Domain.EmployeeAggregate;
 using EmployeeStorage.API.Infrastructure.DataContracts;
 using EmployeeStorage.API.Infrastructure.Services.Interfaces;
 
@@ -91,16 +91,15 @@ public class EmployeeService : IEmployeeService
                     Passport = updateRequest.Passport is not null 
                         ? new Passport
                         {
-                            Type = updateRequest.Passport.Type ?? employee.PassportType,
-                            Number = updateRequest.Passport.Number ?? employee.PassportNumber
+                            Type = updateRequest.Passport.Type ?? employee.Passport.Type,
+                            Number = updateRequest.Passport.Number ?? employee.Passport.Number
                         }
                         : new Passport
                         {
-                            Type = employee.PassportType,
-                            Number = employee.PassportNumber
-                        }        
+                            Type = employee.Passport.Type,
+                            Number = employee.Passport.Number
+                        },        
                 };
-
 
                 await _employeeRepository.UpdateAsync(
                     data, 

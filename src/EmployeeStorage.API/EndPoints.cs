@@ -1,4 +1,4 @@
-﻿using EmployeeStorage.API.Domain;
+﻿using EmployeeStorage.API.Domain.EmployeeAggregate;
 using EmployeeStorage.API.Infrastructure.DataContracts;
 using EmployeeStorage.API.Infrastructure.Services;
 using EmployeeStorage.API.Infrastructure.Services.Interfaces;

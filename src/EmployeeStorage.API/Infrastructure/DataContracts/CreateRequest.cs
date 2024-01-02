@@ -1,4 +1,4 @@
-﻿using EmployeeStorage.API.Domain;
+﻿using EmployeeStorage.API.Domain.EmployeeAggregate;
 using System.Text.Json.Serialization;
 
 namespace EmployeeStorage.API.Infrastructure.DataContracts;

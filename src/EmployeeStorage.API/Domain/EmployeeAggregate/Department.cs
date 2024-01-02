@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace EmployeeStorage.API.Domain;
+namespace EmployeeStorage.API.Domain.EmployeeAggregate;
 
 public class Department
 {

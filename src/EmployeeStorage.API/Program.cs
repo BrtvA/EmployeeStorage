@@ -1,5 +1,4 @@
 ﻿using EmployeeStorage.API;
-using EmployeeStorage.API.Domain;
 using EmployeeStorage.API.Infrastructure.Services.Interfaces;
 using EmployeeStorage.API.Infrastructure.Services;
 using EmployeeStorage.API.Infrastructure.Repositories;
@@ -11,6 +10,7 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.Json;
 using EmployeeStorage.API.Middlewares;
 using Microsoft.OpenApi.Models;
+using EmployeeStorage.API.Domain.EmployeeAggregate;
 
 var builder = WebApplication.CreateBuilder(args);
 
