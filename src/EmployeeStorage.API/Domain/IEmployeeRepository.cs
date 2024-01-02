@@ -8,9 +8,8 @@ public interface IEmployeeRepository : IDisposable
     public IDbTransaction BeginTransaction();
     public Task<int> CreateAsync(Employee employee, int departmentId);
     public Task<EmployeeExtended?> Get(int id);
-    public Task<IEnumerable<Employee>> GetAllByCompanyAsync(string companyName);
-    public Task<IEnumerable<Employee>> GetAllByDepartmentAsync(
-        string companyName, string departmentName);
+    public Task<IEnumerable<Employee>> GetAllAsync(
+        int companyId, int? departmentId);
     public Task<Employee?> GetByPassportAsync(Passport passport);
     public Task UpdateAsync(Employee employee, int departmentId);
     public Task DeleteAsync(int id);

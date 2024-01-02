@@ -1,7 +1,6 @@
 ﻿using Dapper;
 using EmployeeStorage.API.Domain;
 using EmployeeStorage.API.Infrastructure.DataBase;
-using EmployeeStorage.API.Infrastructure.DataContracts;
 using System.Data;
 
 namespace EmployeeStorage.API.Infrastructure.Repositories;
@@ -69,77 +68,26 @@ public class EmployeeRepository : IEmployeeRepository
         );
     }
 
-    public async Task<IEnumerable<Employee>> GetAllByCompanyAsync(string companyName)
+    public async Task<IEnumerable<Employee>> GetAllAsync(
+        int companyId, int? departmentId)
     {
         var results = await _connection.QueryAsync<EmployeeExtended>(
-            """
-             SELECT e."Id", e."Name", e."Surname", 
-               	    e."Phone", e."CompanyId", 
-                    e."PassportType", e."PassportNumber",
-                    d."Id" as "DepartmentId",
-                 	d."Name" as "DepartmentName", d."Phone" as "DepartmentPhone"
-             FROM "Employees" as e
-             JOIN "Departments" as d
-                ON e."DepartmentId" = d."Id"
-             JOIN "Companies" as c
-                ON e."CompanyId" = c."Id"
-             WHERE c."Name" = @CompanyName;
-             """,
-            new
-            {
-                CompanyName = companyName
-            }
-        );
-
-        List<Employee> employees = new(results.Count());
-
-        foreach (var item in results)
-        {
-            employees.Add(new Employee
-            {
-                Id = item.Id,
-                Name = item.Name,
-                Surname = item.Surname,
-                Phone = item.Phone,
-                CompanyId = item.CompanyId,
-                Passport = new Passport
-                {
-                    Type = item.PassportType,
-                    Number = item.PassportNumber,
-                },
-                Department = new Department
-                {
-                    Name = item.DepartmentName,
-                    Phone = item.DepartmentPhone
-                }
-            });
-        }
-
-        return employees;
-    }
-
-    public async Task<IEnumerable<Employee>> GetAllByDepartmentAsync(
-        string companyName, string departmentName)
-    {
-        var results = await _connection.QueryAsync<EmployeeExtended>(
-            """
+            $"""
             SELECT e."Id", e."Name", e."Surname", 
-              	    e."Phone", e."CompanyId", 
+              	   e."Phone", e."CompanyId", 
                    e."PassportType", e."PassportNumber",
                    d."Id" as "DepartmentId",
-                	d."Name" as "DepartmentName", d."Phone" as "DepartmentPhone"
+                   d."Name" as "DepartmentName", d."Phone" as "DepartmentPhone"
             FROM "Employees" as e
             JOIN "Departments" as d
                 ON e."DepartmentId" = d."Id"
-            JOIN "Companies" as c
-                ON e."CompanyId" = c."Id"
-            WHERE c."Name" = @CompanyName
-            AND d."Name" = @DepartmentName;
+            WHERE e."CompanyId" = @companyId
+            {(departmentId is not null ? "AND e.\"DepartmentId\" = @departmentId":"")};
             """,
             new
             {
-                CompanyName = companyName,
-                DepartmentName = departmentName
+                companyId,
+                departmentId
             }
         );
 

@@ -49,22 +49,11 @@ public class EmployeeService : IEmployeeService
         }
     }
 
-    public async Task<Result<IEnumerable<Employee>>> GetAllByCompanyAsync(GetRequest getRequest)
+    public async Task<Result<IEnumerable<Employee>>> GetAllAsync(
+        int companyId, int? departmentId)
     {
-        var result = await _employeeRepository.GetAllByCompanyAsync(getRequest.CompanyName);
-
-        if (!result.Any())
-        {
-            Result<IEnumerable<Employee>>.Failure("Нет данных", 404);
-        }
-
-        return Result<IEnumerable<Employee>>.Success(result);
-    }
-
-    public async Task<Result<IEnumerable<Employee>>> GetAllByDepartmentAsync(GetFullRequest getRequest)
-    {
-        var result = await _employeeRepository.GetAllByDepartmentAsync(
-            getRequest.CompanyName, getRequest.DepartmentName
+        var result = await _employeeRepository.GetAllAsync(
+            companyId, departmentId
         );
 
         if (!result.Any())

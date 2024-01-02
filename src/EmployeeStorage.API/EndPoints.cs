@@ -11,19 +11,13 @@ public static class EndPoints
 {
     public static void DoEndPoint(this WebApplication app)
     {
-        app.MapGet("/employee/company",
-
-            async (IValidator<GetRequest> validator,
-            IEmployeeService employeeService,
-            [FromBody] GetRequest getRequest) =>
+        app.MapGet("/employee/company/{id}",
+            async (IEmployeeService employeeService,
+            int id) =>
         {
-            var validationResult = await validator.ValidateAsync(getRequest);
-            if (!validationResult.IsValid)
-            {
-                return Results.ValidationProblem(validationResult.ToDictionary());
-            }
+            if (id <= 0) return Results.BadRequest();
 
-            var result = await employeeService.GetAllByCompanyAsync(getRequest);
+            var result = await employeeService.GetAllAsync(id, null);
 
             return Results.Json(result);
         })
@@ -33,21 +27,16 @@ public static class EndPoints
             Description = "Список сотрудников в определенной компании"
         })
         .Produces<Result<IEnumerable<Employee>>>(StatusCodes.Status200OK)
-        .Produces(StatusCodes.Status400BadRequest)
-        .Accepts<GetRequest>("application/json");
+        .Produces(StatusCodes.Status400BadRequest);
 
 
-        app.MapGet("/employee/department", async (IValidator<GetFullRequest> validator,
-            IEmployeeService employeeService,
-            [FromBody] GetFullRequest getRequest) =>
+        app.MapGet("/employee/company/{companyId}/department/{departmentId}",
+            async (IEmployeeService employeeService,
+            int companyId, int departmentId) =>
         {
-            var validationResult = await validator.ValidateAsync(getRequest);
-            if (!validationResult.IsValid)
-            {
-                return Results.ValidationProblem(validationResult.ToDictionary());
-            }
+            if (companyId <= 0 || departmentId <= 0) return Results.BadRequest();
 
-            var result = await employeeService.GetAllByDepartmentAsync(getRequest);
+            var result = await employeeService.GetAllAsync(companyId, departmentId);
 
             return Results.Json(result);
         })
@@ -57,8 +46,7 @@ public static class EndPoints
             Description = "Список сотрудников в определенном отделе определенной компании"
         })
         .Produces<Result<IEnumerable<Employee>>>(StatusCodes.Status200OK)
-        .Produces(StatusCodes.Status400BadRequest)
-        .Accepts<GetFullRequest>("application/json");
+        .Produces(StatusCodes.Status400BadRequest);
 
 
         app.MapPost("/employee", async (IValidator<CreateRequest> validator,
