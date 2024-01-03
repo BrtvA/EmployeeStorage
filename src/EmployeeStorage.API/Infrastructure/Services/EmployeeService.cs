@@ -2,16 +2,19 @@
 using EmployeeStorage.API.Domain.EmployeeAggregate;
 using EmployeeStorage.API.Infrastructure.DataContracts;
 using EmployeeStorage.API.Infrastructure.Services.Interfaces;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace EmployeeStorage.API.Infrastructure.Services;
 
 public class EmployeeService : IEmployeeService
 {
     private readonly IEmployeeRepository _employeeRepository;
+    private readonly IMemoryCache _cache;
 
-    public EmployeeService(IEmployeeRepository employeeRepository)
+    public EmployeeService(IEmployeeRepository employeeRepository, IMemoryCache cache)
     {
         _employeeRepository = employeeRepository;
+        _cache = cache;
     }
 
     public async Task<Result<int>> CreateAsync(CreateRequest createRequest)
@@ -36,6 +39,10 @@ public class EmployeeService : IEmployeeService
                 );
 
                 result = Result<int>.Success(id);
+
+                _cache.Remove((createRequest.CompanyId, createRequest.DepartmentId));
+                int? key = null;
+                _cache.Remove((createRequest.CompanyId, key));
             }
 
             transaction.Commit();
@@ -53,16 +60,28 @@ public class EmployeeService : IEmployeeService
     public async Task<Result<IEnumerable<Employee>>> GetAllAsync(
         int companyId, int? departmentId)
     {
-        var result = await _employeeRepository.GetAllAsync(
-            companyId, departmentId
-        );
+        _cache.TryGetValue((companyId, departmentId), out Result<IEnumerable<Employee>>? result);
 
-        if (!result.Any())
+        if (result is null)
         {
-            Result<IEnumerable<Employee>>.Failure("Нет данных", 404);
+            var employees = await _employeeRepository.GetAllAsync(
+                companyId, departmentId
+            );
+
+            if (!employees.Any())
+            {
+                return Result<IEnumerable<Employee>>.Failure("Нет данных", 404);
+            }
+
+            result = Result<IEnumerable<Employee>>.Success(employees);
+
+            _cache.Set((companyId, departmentId), result, 
+                new MemoryCacheEntryOptions()
+                .SetAbsoluteExpiration(TimeSpan.FromMinutes(1))
+            );
         }
 
-        return Result<IEnumerable<Employee>>.Success(result);
+        return result;
     }
 
     public async Task<Result<bool>> UpdateAsync(int id, UpdateRequest updateRequest)
@@ -102,6 +121,10 @@ public class EmployeeService : IEmployeeService
                 await _employeeRepository.UpdateAsync(data);
 
                 result = Result<bool>.Success(true);
+
+                _cache.Remove((employee.CompanyId, employee.DepartmentId));
+                int? key = null;
+                _cache.Remove((employee.CompanyId, key));
             }
 
             transaction.Commit();
@@ -135,6 +158,10 @@ public class EmployeeService : IEmployeeService
                 await _employeeRepository.DeleteAsync(id);
 
                 result = Result<bool>.Success(true);
+
+                _cache.Remove((employee.CompanyId, employee.DepartmentId));
+                int? key = null;
+                _cache.Remove((employee.CompanyId, key));
             }
 
             transaction.Commit();

@@ -42,6 +42,8 @@ builder.Services.AddSingleton<DataContext>();
 builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddTransient<IEmployeeService, EmployeeService>();
 
+builder.Services.AddMemoryCache();
+
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionHandingMiddleware>();
