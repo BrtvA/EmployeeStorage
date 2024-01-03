@@ -82,7 +82,7 @@ public class EmployeeService : IEmployeeService
             }
             else
             {
-                var data = new Employee() 
+                var data = new EmployeeExtended() 
                 {
                     Id = id,
                     Name = updateRequest.Name ?? employee.Name,
@@ -95,17 +95,11 @@ public class EmployeeService : IEmployeeService
                             Type = updateRequest.Passport.Type ?? employee.Passport.Type,
                             Number = updateRequest.Passport.Number ?? employee.Passport.Number
                         }
-                        : new Passport
-                        {
-                            Type = employee.Passport.Type,
-                            Number = employee.Passport.Number
-                        },        
+                        : employee.Passport,
+                    DepartmentId = updateRequest.DepartmentId ?? employee.DepartmentId
                 };
 
-                await _employeeRepository.UpdateAsync(
-                    data, 
-                    updateRequest.DepartmentId ?? employee.DepartmentId
-                );
+                await _employeeRepository.UpdateAsync(data);
 
                 result = Result<bool>.Success(true);
             }

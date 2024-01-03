@@ -12,6 +12,6 @@ public interface IEmployeeRepository : IDisposable
     public Task<IEnumerable<Employee>> GetAllAsync(
         int companyId, int? departmentId);
     public Task<Employee?> GetByPassportAsync(Passport passport);
-    public Task UpdateAsync(Employee employee, int departmentId);
+    public Task UpdateAsync(EmployeeExtended employeeExtended);
     public Task DeleteAsync(int id);
 }

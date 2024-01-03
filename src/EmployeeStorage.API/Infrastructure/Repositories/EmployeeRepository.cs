@@ -121,7 +121,7 @@ public class EmployeeRepository : IEmployeeRepository
         );
     }
 
-    public async Task UpdateAsync(Employee employee, int departmentId)
+    public async Task UpdateAsync(EmployeeExtended employeeExtended)
     {
         await _connection.ExecuteAsync(
             """
@@ -137,14 +137,14 @@ public class EmployeeRepository : IEmployeeRepository
             """,
             new
             {
-                employee.Id,
-                employee.Name,
-                employee.Surname,
-                employee.Phone,
-                employee.CompanyId,
-                PassportType = employee.Passport.Type,
-                PassportNumber = employee.Passport.Number,
-                DepartmentId = departmentId
+                employeeExtended.Id,
+                employeeExtended.Name,
+                employeeExtended.Surname,
+                employeeExtended.Phone,
+                employeeExtended.CompanyId,
+                PassportType = employeeExtended.Passport.Type,
+                PassportNumber = employeeExtended.Passport.Number,
+                employeeExtended.DepartmentId
             }
         );
     }
