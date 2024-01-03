@@ -10,7 +10,7 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.Json;
 using EmployeeStorage.API.Middlewares;
 using Microsoft.OpenApi.Models;
-using EmployeeStorage.API.Domain.EmployeeAggregate;
+using EmployeeStorage.API.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
 

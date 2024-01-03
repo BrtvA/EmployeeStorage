@@ -110,56 +110,6 @@ public class EmployeeRepository : IEmployeeRepository
         return results;
     }
 
-    //public async Task<IEnumerable<Employee>> GetAllAsync(
-    //    int companyId, int? departmentId)
-    //{
-    //    var results = await _connection.QueryAsync<EmployeeExtended>(
-    //        $"""
-    //        SELECT e."Id", e."Name", e."Surname", 
-    //          	   e."Phone", e."CompanyId", 
-    //               e."PassportType", e."PassportNumber",
-    //               d."Id" as "DepartmentId",
-    //               d."Name" as "DepartmentName", d."Phone" as "DepartmentPhone"
-    //        FROM "Employees" as e
-    //        JOIN "Departments" as d
-    //            ON e."DepartmentId" = d."Id"
-    //        WHERE e."CompanyId" = @companyId
-    //        {(departmentId is not null ? "AND e.\"DepartmentId\" = @departmentId":"")};
-    //        """,
-    //        new
-    //        {
-    //            companyId,
-    //            departmentId
-    //        }
-    //    );
-
-    //    List<Employee> employees = new(results.Count());
-
-    //    foreach (var item in results)
-    //    {
-    //        employees.Add(new Employee
-    //        {
-    //            Id = item.Id,
-    //            Name = item.Name,
-    //            Surname = item.Surname,
-    //            Phone = item.Phone,
-    //            CompanyId = item.CompanyId,
-    //            Passport = new Passport
-    //            {
-    //                Type = item.PassportType,
-    //                Number = item.PassportNumber,
-    //            },
-    //            Department = new Department
-    //            {
-    //                Name = item.DepartmentName,
-    //                Phone = item.DepartmentPhone
-    //            }
-    //        });
-    //    }
-
-    //    return employees;
-    //}
-
     public async Task<Employee?> GetByPassportAsync(Passport passport)
     {
         return await _connection.QuerySingleOrDefaultAsync<Employee>(
