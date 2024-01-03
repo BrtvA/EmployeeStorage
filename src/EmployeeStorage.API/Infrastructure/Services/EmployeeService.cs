@@ -35,7 +35,7 @@ public class EmployeeService : IEmployeeService
             else
             {
                 int id = await _employeeRepository.CreateAsync(
-                    createRequest.ConvertToEmployee(), createRequest.DepartmentId
+                    createRequest.ConvertToEmployeeExtended()
                 );
 
                 result = Result<int>.Success(id);

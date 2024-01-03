@@ -27,7 +27,7 @@ public class EmployeeRepository : IEmployeeRepository
         return _connection.BeginTransaction();
     }
 
-    public async Task<int> CreateAsync(Employee employee, int departmentId)
+    public async Task<int> CreateAsync(EmployeeExtended employeeExtended)
     {
         return await _connection.QuerySingleAsync<int>(
             """
@@ -41,13 +41,13 @@ public class EmployeeRepository : IEmployeeRepository
             """,
             new
             {
-                employee.Name,
-                employee.Surname,
-                employee.Phone,
-                employee.CompanyId,
-                PassportType = employee.Passport.Type,
-                PassportNumber = employee.Passport.Number,
-                DepartmentId = departmentId
+                employeeExtended.Name,
+                employeeExtended.Surname,
+                employeeExtended.Phone,
+                employeeExtended.CompanyId,
+                PassportType = employeeExtended.Passport.Type,
+                PassportNumber = employeeExtended.Passport.Number,
+                employeeExtended.DepartmentId
             }
         );
     }

@@ -1,4 +1,5 @@
-﻿using EmployeeStorage.API.Domain.EmployeeAggregate;
+﻿using EmployeeStorage.API.Domain;
+using EmployeeStorage.API.Domain.EmployeeAggregate;
 using System.Text.Json.Serialization;
 
 namespace EmployeeStorage.API.Infrastructure.DataContracts;
@@ -18,13 +19,14 @@ public class CreateRequest
     [JsonPropertyName("department_id")]
     public int DepartmentId { get; set; }
 
-    public Employee ConvertToEmployee() =>
-        new Employee
+    public EmployeeExtended ConvertToEmployeeExtended() =>
+        new EmployeeExtended
         {
             Name = Name,
             Surname = Surname,
             Phone = Phone,
             CompanyId = CompanyId,
-            Passport = Passport
+            Passport = Passport,
+            DepartmentId = DepartmentId
         };
 }
