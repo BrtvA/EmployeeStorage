@@ -1,6 +1,7 @@
-﻿using System.Data;
+﻿using EmployeeStorage.API.Domain.EmployeeAggregate;
+using System.Data;
 
-namespace EmployeeStorage.API.Domain.EmployeeAggregate;
+namespace EmployeeStorage.API.Domain;
 
 public interface IEmployeeRepository : IDisposable
 {
