@@ -40,9 +40,7 @@ public class EmployeeService : IEmployeeService
 
                 result = Result<int>.Success(id);
 
-                _cache.Remove((createRequest.CompanyId, createRequest.DepartmentId));
-                int? key = null;
-                _cache.Remove((createRequest.CompanyId, key));
+                DeleteCache(createRequest.CompanyId, createRequest.DepartmentId);
             }
 
             transaction.Commit();
@@ -122,9 +120,7 @@ public class EmployeeService : IEmployeeService
 
                 result = Result<bool>.Success(true);
 
-                _cache.Remove((employee.CompanyId, employee.DepartmentId));
-                int? key = null;
-                _cache.Remove((employee.CompanyId, key));
+                DeleteCache(employee.CompanyId, employee.DepartmentId);
             }
 
             transaction.Commit();
@@ -159,9 +155,7 @@ public class EmployeeService : IEmployeeService
 
                 result = Result<bool>.Success(true);
 
-                _cache.Remove((employee.CompanyId, employee.DepartmentId));
-                int? key = null;
-                _cache.Remove((employee.CompanyId, key));
+                DeleteCache(employee.CompanyId, employee.DepartmentId);
             }
 
             transaction.Commit();
@@ -174,5 +168,12 @@ public class EmployeeService : IEmployeeService
 
             throw;
         }
+    }
+
+    private void DeleteCache(int companyId, int departmentId)
+    {
+        _cache.Remove((companyId, departmentId));
+        int? key = null;
+        _cache.Remove((companyId, key));
     }
 }
