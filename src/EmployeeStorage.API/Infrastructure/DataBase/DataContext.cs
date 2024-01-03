@@ -117,7 +117,7 @@ public class DataContext
                     "Id" SERIAL PRIMARY KEY,
                     "CompanyId" INTEGER NOT NULL,
                     "Name" VARCHAR(30) NOT NULL,
-                    "Phone" CHAR(12) NOT NULL,
+                    "Phone" VARCHAR(12) NOT NULL,
                     FOREIGN KEY ("CompanyId") REFERENCES "Companies" ("Id")
                 );
                 """;
