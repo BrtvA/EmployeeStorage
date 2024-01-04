@@ -8,7 +8,7 @@ public interface IEmployeeRepository : IDisposable
     public void OpenConnection();
     public IDbTransaction BeginTransaction();
     public Task<int> CreateAsync(EmployeeExtended employeeExtended);
-    public Task<EmployeeExtended?> Get(int id);
+    public Task<EmployeeExtended?> GetAsync(int id);
     public Task<IEnumerable<Employee>> GetAllAsync(
         int companyId, int? departmentId);
     public Task<Employee?> GetByPassportAsync(Passport passport);

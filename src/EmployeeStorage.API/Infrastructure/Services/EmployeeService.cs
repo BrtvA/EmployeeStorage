@@ -91,7 +91,7 @@ public class EmployeeService : IEmployeeService
         {
             Result<bool> result;
 
-            var employee = await _employeeRepository.Get(id);
+            var employee = await _employeeRepository.GetAsync(id);
 
             if (employee is null)
             {
@@ -143,7 +143,7 @@ public class EmployeeService : IEmployeeService
         {
             Result<bool> result;
 
-            var employee = await _employeeRepository.Get(id);
+            var employee = await _employeeRepository.GetAsync(id);
 
             if (employee is null)
             {

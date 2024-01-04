@@ -52,7 +52,7 @@ public class EmployeeRepository : IEmployeeRepository
         );
     }
 
-    public async Task<EmployeeExtended?> Get(int id)
+    public async Task<EmployeeExtended?> GetAsync(int id)
     {
         var result = await _connection.QueryAsync<EmployeeExtended, Passport, Department, EmployeeExtended>(
             """
