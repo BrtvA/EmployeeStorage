@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeStorage.API", "src\
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{760C0D44-8154-4EB0-A098-37798ABCBC8C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A62B95E4-75AB-4784-9881-CC26E9A1901E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeStorage.Tests", "tests\EmployeeStorage.Tests\EmployeeStorage.Tests.csproj", "{8EAE3F22-7CCB-4C0C-AF73-4CAAC912C501}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,12 +27,17 @@ Global
 		{760C0D44-8154-4EB0-A098-37798ABCBC8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{760C0D44-8154-4EB0-A098-37798ABCBC8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{760C0D44-8154-4EB0-A098-37798ABCBC8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EAE3F22-7CCB-4C0C-AF73-4CAAC912C501}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EAE3F22-7CCB-4C0C-AF73-4CAAC912C501}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EAE3F22-7CCB-4C0C-AF73-4CAAC912C501}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EAE3F22-7CCB-4C0C-AF73-4CAAC912C501}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1DA65E07-070F-4D5D-B20F-51FE9F501D3D} = {97E8C6F7-6A36-4CBF-BC9D-B933FF875B56}
+		{8EAE3F22-7CCB-4C0C-AF73-4CAAC912C501} = {A62B95E4-75AB-4784-9881-CC26E9A1901E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {52FE63EC-5110-45DA-8F1F-723ACEF5884E}
