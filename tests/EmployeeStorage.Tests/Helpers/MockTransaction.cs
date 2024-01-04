@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace EmployeeStorage.Tests;
+namespace EmployeeStorage.Tests.Helpers;
 
 internal class MockTransaction : IDbTransaction
 {

@@ -1,4 +1,4 @@
-﻿namespace EmployeeStorage.Tests
+﻿namespace EmployeeStorage.Tests.Helpers
 {
     internal class MockTransactionException : MockTransaction
     {
