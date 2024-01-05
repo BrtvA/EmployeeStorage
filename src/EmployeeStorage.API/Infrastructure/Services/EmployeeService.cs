@@ -99,28 +99,22 @@ public class EmployeeService : IEmployeeService
             }
             else
             {
-                var data = new EmployeeExtended() 
+                var data = updateRequest.MergeWithCurrentData(id, employee);
+
+                var employee2 = await _employeeRepository.GetByPassportAsync(data.Passport);
+                
+                if (employee2 is null || employee.Id == employee2.Id)
                 {
-                    Id = id,
-                    Name = updateRequest.Name ?? employee.Name,
-                    Surname = updateRequest.Surname ?? employee.Surname,
-                    Phone = updateRequest.Phone ?? employee.Phone,
-                    CompanyId = updateRequest.CompanyId ?? employee.CompanyId,
-                    Passport = updateRequest.Passport is not null 
-                        ? new Passport
-                        {
-                            Type = updateRequest.Passport.Type ?? employee.Passport.Type,
-                            Number = updateRequest.Passport.Number ?? employee.Passport.Number
-                        }
-                        : employee.Passport,
-                    DepartmentId = updateRequest.DepartmentId ?? employee.DepartmentId
-                };
+                    await _employeeRepository.UpdateAsync(data);
 
-                await _employeeRepository.UpdateAsync(data);
+                    result = Result<bool>.Success(true);
 
-                result = Result<bool>.Success(true);
-
-                DeleteCache(employee.CompanyId, employee.DepartmentId);
+                    DeleteCache(employee.CompanyId, employee.DepartmentId);
+                }
+                else
+                {
+                    result = Result<bool>.Failure("Уже существует сотрудник с такими данными", 400);
+                }
             }
 
             transaction.Commit();
