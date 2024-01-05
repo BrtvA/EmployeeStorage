@@ -21,14 +21,82 @@ public class EmployeeService_UpdateAsync
             }
         };
 
+    public static IEnumerable<object[]> UpdateRequestsList => new []
+    {
+        new object[] {
+            new UpdateRequest
+            {
+                Name = "Михаил",
+                Surname = "Смирнов",
+                Phone = "+78005553111",
+                CompanyId = 2,
+                Passport = new Passport
+                {
+                    Type = "eu",
+                    Number = "4018172065"
+                },
+                DepartmentId = 2
+            }
+        },
+        [
+            new UpdateRequest
+            {
+                Name = "Михаил",
+            }
+        ],
+        [
+            new UpdateRequest
+            {
+                Surname = "Смирнов"
+            }
+        ],
+        [
+            new UpdateRequest
+            {
+                Phone = "+78005553111"
+            }
+        ],
+        [
+            new UpdateRequest
+            {
+                CompanyId = 2,
+            }
+        ],
+        [
+            new UpdateRequest
+            {
+                Passport = new Passport
+                {
+                    Type = "eu"
+                }
+            } 
+        ],
+        [
+            new UpdateRequest
+            {
+                Passport = new Passport
+                {
+                    Number = "4018172065"
+                }
+            } 
+        ],
+        [
+            new UpdateRequest
+            {
+                DepartmentId = 2
+            }
+        ],
+    };
+
     public EmployeeService_UpdateAsync()
     {
         _mockCache = new Mock<IMemoryCache>();
         _mockCache.Setup(cache => cache.Remove(It.IsAny<(int, int)>()));
     }
 
-    [Fact]
-    public async void UpdateAsync_IdUpdateRequest_ResultSuccess()
+    [Theory]
+    [MemberData(nameof(UpdateRequestsList))]
+    public async void UpdateAsync_IdUpdateRequest_ResultSuccess(UpdateRequest updateRequest)
     {
         // Arrange
         int id = 1;
@@ -46,7 +114,8 @@ public class EmployeeService_UpdateAsync
         var employeeService = new EmployeeService(mockRepository.Object, _mockCache.Object);
 
         // Act
-        var resultService = await employeeService.UpdateAsync(id, UpdateRequest);
+        //var resultService = await employeeService.UpdateAsync(id, UpdateRequest);
+        var resultService = await employeeService.UpdateAsync(id, updateRequest);
 
         // Assert
         Assert.IsType<Result<bool>>(resultService);
