@@ -31,8 +31,11 @@ public class EmployeeService_UpdateAsync
     public async void UpdateAsync_IdUpdateRequest_ResultSuccess()
     {
         // Arrange
-        var mockRepository = new Mock<IEmployeeRepository>();
+        int id = 1;
+
         var transaction = new MockTransaction();
+
+        var mockRepository = new Mock<IEmployeeRepository>();
         mockRepository.Setup(repo => repo.BeginTransaction())
             .Returns(transaction);
         mockRepository.Setup(repo => repo.GetAsync(It.IsAny<int>()))
@@ -43,7 +46,7 @@ public class EmployeeService_UpdateAsync
         var employeeService = new EmployeeService(mockRepository.Object, _mockCache.Object);
 
         // Act
-        var resultService = await employeeService.UpdateAsync(1, UpdateRequest);
+        var resultService = await employeeService.UpdateAsync(id, UpdateRequest);
 
         // Assert
         Assert.IsType<Result<bool>>(resultService);
@@ -55,8 +58,11 @@ public class EmployeeService_UpdateAsync
     public async void UpdateAsync_IdUpdateRequest_ResultFailure404()
     {
         // Arrange
-        var mockRepository = new Mock<IEmployeeRepository>();
+        int id = 1;
+
         var transaction = new MockTransaction();
+
+        var mockRepository = new Mock<IEmployeeRepository>();
         mockRepository.Setup(repo => repo.BeginTransaction())
             .Returns(transaction);
         mockRepository.Setup(repo => repo.GetAsync(It.IsAny<int>()));
@@ -64,7 +70,7 @@ public class EmployeeService_UpdateAsync
         var employeeService = new EmployeeService(mockRepository.Object, _mockCache.Object);
 
         // Act
-        var resultService = await employeeService.UpdateAsync(1, UpdateRequest);
+        var resultService = await employeeService.UpdateAsync(id, UpdateRequest);
 
         // Assert
         Assert.IsType<Result<bool>>(resultService);
@@ -76,8 +82,11 @@ public class EmployeeService_UpdateAsync
     public async void UpdateAsync_IdUpdateRequest_ResultFailure400()
     {
         // Arrange
-        var mockRepository = new Mock<IEmployeeRepository>();
+        int id = 1;
+
         var transaction = new MockTransaction();
+
+        var mockRepository = new Mock<IEmployeeRepository>();
         mockRepository.Setup(repo => repo.BeginTransaction())
             .Returns(transaction);
         mockRepository.Setup(repo => repo.GetAsync(It.IsAny<int>()))
@@ -88,7 +97,7 @@ public class EmployeeService_UpdateAsync
         var employeeService = new EmployeeService(mockRepository.Object, _mockCache.Object);
 
         // Act
-        var resultService = await employeeService.UpdateAsync(1, UpdateRequest);
+        var resultService = await employeeService.UpdateAsync(id, UpdateRequest);
 
         // Assert
         Assert.IsType<Result<bool>>(resultService);
@@ -100,8 +109,11 @@ public class EmployeeService_UpdateAsync
     public async void UpdateAsync_IdUpdateRequest_InvalidOperationException()
     {
         // Arrange
-        var mockRepository = new Mock<IEmployeeRepository>();
+        int id = 1;
+
         var transaction = new MockTransactionException();
+
+        var mockRepository = new Mock<IEmployeeRepository>();
         mockRepository.Setup(repo => repo.BeginTransaction())
              .Returns(transaction);
         mockRepository.Setup(repo => repo.GetAsync(It.IsAny<int>()))
@@ -111,7 +123,7 @@ public class EmployeeService_UpdateAsync
         var employeeService = new EmployeeService(mockRepository.Object, _mockCache.Object);
 
         // Act
-        var act = () => employeeService.UpdateAsync(1, UpdateRequest);
+        var act = () => employeeService.UpdateAsync(id, UpdateRequest);
 
         // Assert
         await Assert.ThrowsAsync<InvalidOperationException>(act);

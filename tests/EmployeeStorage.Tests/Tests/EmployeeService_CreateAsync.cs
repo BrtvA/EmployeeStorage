@@ -37,8 +37,9 @@ public class EmployeeService_CreateAsync
     public async void CreateAsync_CreateRequest_ResultSuccess()
     {
         // Arrange
-        var mockRepository = new Mock<IEmployeeRepository>();
         var transaction = new MockTransaction();
+
+        var mockRepository = new Mock<IEmployeeRepository>();
         mockRepository.Setup(repo => repo.BeginTransaction())
             .Returns(transaction);
         mockRepository.Setup(repo => repo.GetByPassportAsync(It.IsAny<Passport>()));
@@ -60,8 +61,9 @@ public class EmployeeService_CreateAsync
     public async void CreateAsync_CreateRequest_ResultFailure()
     {
         // Arrange
-        var mockRepository = new Mock<IEmployeeRepository>();
         var transaction = new MockTransaction();
+
+        var mockRepository = new Mock<IEmployeeRepository>();
         mockRepository.Setup(repo => repo.BeginTransaction())
             .Returns(transaction);
         mockRepository.Setup(repo => repo.GetByPassportAsync(It.IsAny<Passport>()))
@@ -81,8 +83,9 @@ public class EmployeeService_CreateAsync
     public async void CreateAsync_CreateRequest_InvalidOperationException()
     {
         // Arrange
-        var mockRepository = new Mock<IEmployeeRepository>();
         var transaction = new MockTransactionException();
+
+        var mockRepository = new Mock<IEmployeeRepository>();
         mockRepository.Setup(repo => repo.BeginTransaction())
             .Returns(transaction);
         mockRepository.Setup(repo => repo.GetByPassportAsync(It.IsAny<Passport>()));

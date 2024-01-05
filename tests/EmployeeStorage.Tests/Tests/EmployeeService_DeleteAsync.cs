@@ -21,8 +21,11 @@ public class EmployeeService_DeleteAsync
     public async void DeleteAsync_Id_ResultSuccess()
     {
         // Arrange
-        var mockRepository = new Mock<IEmployeeRepository>();
+        int id = 1;
+
         var transaction = new MockTransaction();
+
+        var mockRepository = new Mock<IEmployeeRepository>();
         mockRepository.Setup(repo => repo.BeginTransaction())
             .Returns(transaction);
         mockRepository.Setup(repo => repo.GetAsync(It.IsAny<int>()))
@@ -32,7 +35,7 @@ public class EmployeeService_DeleteAsync
         var employeeService = new EmployeeService(mockRepository.Object, _mockCache.Object);
 
         // Act
-        var result = await employeeService.DeleteAsync(1);
+        var result = await employeeService.DeleteAsync(id);
 
         // Assert
         Assert.IsType<Result<bool>>(result);
@@ -44,8 +47,11 @@ public class EmployeeService_DeleteAsync
     public async void DeleteAsync_Id_ResultFailure()
     {
         // Arrange
-        var mockRepository = new Mock<IEmployeeRepository>();
+        int id = 1;
+
         var transaction = new MockTransaction();
+
+        var mockRepository = new Mock<IEmployeeRepository>();
         mockRepository.Setup(repo => repo.BeginTransaction())
             .Returns(transaction);
         mockRepository.Setup(repo => repo.GetAsync(It.IsAny<int>()));
@@ -53,7 +59,7 @@ public class EmployeeService_DeleteAsync
         var employeeService = new EmployeeService(mockRepository.Object, _mockCache.Object);
 
         // Act
-        var result = await employeeService.DeleteAsync(1);
+        var result = await employeeService.DeleteAsync(id);
 
         // Assert
         Assert.IsType<Result<bool>>(result);
@@ -64,8 +70,11 @@ public class EmployeeService_DeleteAsync
     public async void DeleteAsync_Id_InvalidOperationException()
     {
         // Arrange
-        var mockRepository = new Mock<IEmployeeRepository>();
+        int id = 1;
+
         var transaction = new MockTransactionException();
+
+        var mockRepository = new Mock<IEmployeeRepository>();
         mockRepository.Setup(repo => repo.BeginTransaction())
             .Returns(transaction);
         mockRepository.Setup(repo => repo.GetAsync(It.IsAny<int>()))
@@ -75,7 +84,7 @@ public class EmployeeService_DeleteAsync
         var employeeService = new EmployeeService(mockRepository.Object, _mockCache.Object);
 
         // Act
-        var act = () => employeeService.DeleteAsync(1);
+        var act = () => employeeService.DeleteAsync(id);
 
         // Assert
         await Assert.ThrowsAsync<InvalidOperationException>(act);
