@@ -114,7 +114,6 @@ public class EmployeeService_UpdateAsync
         var employeeService = new EmployeeService(mockRepository.Object, _mockCache.Object);
 
         // Act
-        //var resultService = await employeeService.UpdateAsync(id, UpdateRequest);
         var resultService = await employeeService.UpdateAsync(id, updateRequest);
 
         // Assert
